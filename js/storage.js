@@ -13,10 +13,7 @@ const Storage = (function() {
 
     const DEFAULT_SETTINGS = {
         // ollamaUrl et backendUrl sont gérés dynamiquement dans api.js
-        userName: 'Rémy',
-        model: 'qwen2.5:7b',
-        enterToSend: true,
-        enableSounds: false
+        model: 'qwen2.5:7b'
     };
 
     // ============================================

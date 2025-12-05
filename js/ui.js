@@ -129,34 +129,10 @@ const UI = (function() {
     function loadUserSettings() {
         const settings = Storage.getSettings();
 
-        // Appliquer le nom d'utilisateur
-        const userName = settings.userName || 'Rémy';
-        document.querySelectorAll('.user-name').forEach(el => el.textContent = userName);
-        document.querySelectorAll('.user-avatar').forEach(el => el.textContent = userName.charAt(0).toUpperCase());
-
-        // Mettre à jour le message de bienvenue
-        const welcomeTitle = document.querySelector('.welcome h1');
-        if (welcomeTitle) {
-            welcomeTitle.textContent = 'Hello You';
-        }
-
         // Appliquer le modèle
         if (elements.modelSelect) {
-            elements.modelSelect.value = settings.model || 'llama3.2:1b';
+            elements.modelSelect.value = settings.model || 'qwen2.5:7b';
         }
-
-        // Charger dans les settings
-        const ollamaUrlInput = document.getElementById('ollamaUrl');
-        const backendUrlInput = document.getElementById('backendUrl');
-        const userNameInput = document.getElementById('userName');
-        const enterToSendInput = document.getElementById('enterToSend');
-        const enableSoundsInput = document.getElementById('enableSounds');
-
-        if (ollamaUrlInput) ollamaUrlInput.value = settings.ollamaUrl || 'http://localhost:11434';
-        if (backendUrlInput) backendUrlInput.value = settings.backendUrl || 'http://localhost:3456';
-        if (userNameInput) userNameInput.value = userName;
-        if (enterToSendInput) enterToSendInput.checked = settings.enterToSend !== false;
-        if (enableSoundsInput) enableSoundsInput.checked = settings.enableSounds || false;
     }
 
     // ============================================
