@@ -83,18 +83,6 @@ const App = (function() {
         // Theme toggle
         UI.elements.themeToggle?.addEventListener('click', UI.toggleTheme);
 
-        // Settings
-        UI.elements.settingsBtn?.addEventListener('click', UI.showSettings);
-        document.getElementById('closeSettings')?.addEventListener('click', UI.hideSettings);
-        document.getElementById('clearAllData')?.addEventListener('click', handleClearAllData);
-
-        // Settings inputs
-        document.getElementById('ollamaUrl')?.addEventListener('change', saveSettingsFromInputs);
-        document.getElementById('backendUrl')?.addEventListener('change', saveSettingsFromInputs);
-        document.getElementById('userName')?.addEventListener('change', saveSettingsFromInputs);
-        document.getElementById('enterToSend')?.addEventListener('change', saveSettingsFromInputs);
-        document.getElementById('enableSounds')?.addEventListener('change', saveSettingsFromInputs);
-
         // Message input
         UI.elements.messageInput?.addEventListener('input', function() {
             UI.autoResizeTextarea(this);
@@ -512,27 +500,6 @@ Explique cette erreur à l'utilisateur de façon simple et propose des solutions
 
     function handleModelChange(e) {
         Storage.updateSettings({ model: e.target.value });
-    }
-
-    function saveSettingsFromInputs() {
-        const settings = {
-            ollamaUrl: document.getElementById('ollamaUrl')?.value || 'http://localhost:11434',
-            backendUrl: document.getElementById('backendUrl')?.value || 'http://localhost:3456',
-            userName: document.getElementById('userName')?.value || 'Rémy',
-            enterToSend: document.getElementById('enterToSend')?.checked !== false,
-            enableSounds: document.getElementById('enableSounds')?.checked || false
-        };
-
-        Storage.saveSettings(settings);
-        UI.loadUserSettings();
-        UI.showNotification('Paramètres sauvegardés', 'success');
-    }
-
-    function handleClearAllData() {
-        if (confirm('Supprimer TOUTES les données ? Cette action est irréversible.')) {
-            Storage.clearAllData();
-            location.reload();
-        }
     }
 
     // ============================================
