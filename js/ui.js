@@ -378,8 +378,16 @@ const UI = (function() {
 
             // Renderer personnalisé pour les blocs de code
             const renderer = new marked.Renderer();
-            renderer.code = function(code, language) {
-                const lang = language || 'plaintext';
+            renderer.code = function(codeOrObj, language) {
+                // Support marked v4+ (objet) et versions antérieures (paramètres séparés)
+                let code, lang;
+                if (typeof codeOrObj === 'object' && codeOrObj !== null) {
+                    code = codeOrObj.text || codeOrObj.code || '';
+                    lang = codeOrObj.lang || codeOrObj.language || 'plaintext';
+                } else {
+                    code = codeOrObj || '';
+                    lang = language || 'plaintext';
+                }
                 return `
                     <div class="code-block-header">
                         <span>${lang}</span>
