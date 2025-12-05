@@ -12,10 +12,15 @@ const API = (function() {
 
     function getConfig() {
         const settings = Storage.getSettings();
+        // Détection auto : en production, utiliser les chemins relatifs (proxy Nginx)
+        const isProduction = window.location.hostname !== 'localhost' && !window.location.hostname.includes('127.0.0.1');
+        const defaultOllamaUrl = isProduction ? '/ollama' : 'http://localhost:11434';
+        const defaultBackendUrl = isProduction ? '' : 'http://localhost:3456';
+
         return {
-            ollamaUrl: settings.ollamaUrl || 'http://localhost:11434',
-            backendUrl: settings.backendUrl || 'http://localhost:3456',
-            model: settings.model || 'llama3.2:1b'
+            ollamaUrl: settings.ollamaUrl || defaultOllamaUrl,
+            backendUrl: settings.backendUrl || defaultBackendUrl,
+            model: settings.model || 'qwen2.5:7b'
         };
     }
 
