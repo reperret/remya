@@ -137,7 +137,7 @@ const UI = (function() {
         // Mettre à jour le message de bienvenue
         const welcomeTitle = document.querySelector('.welcome h1');
         if (welcomeTitle) {
-            welcomeTitle.innerHTML = `Bonjour <span class="gradient-text">${userName}</span>`;
+            welcomeTitle.textContent = 'Hello You';
         }
 
         // Appliquer le modèle
