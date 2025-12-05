@@ -12,10 +12,9 @@ const Storage = (function() {
     };
 
     const DEFAULT_SETTINGS = {
-        ollamaUrl: 'http://localhost:11434',
-        backendUrl: 'http://localhost:3456',
+        // ollamaUrl et backendUrl sont gérés dynamiquement dans api.js
         userName: 'Rémy',
-        model: 'llama3.2:1b',
+        model: 'qwen2.5:7b',
         enterToSend: true,
         enableSounds: false
     };
