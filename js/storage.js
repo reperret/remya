@@ -13,7 +13,7 @@ const Storage = (function() {
 
     const DEFAULT_SETTINGS = {
         // ollamaUrl et backendUrl sont gérés dynamiquement dans api.js
-        model: 'qwen2.5:7b'
+        model: 'mistral:7b-instruct-v0.2-q5_K_M'
     };
 
     // ============================================

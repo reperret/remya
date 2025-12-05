@@ -131,7 +131,7 @@ const UI = (function() {
 
         // Appliquer le modèle
         if (elements.modelSelect) {
-            elements.modelSelect.value = settings.model || 'qwen2.5:7b';
+            elements.modelSelect.value = settings.model || 'mistral:7b-instruct-v0.2-q5_K_M';
         }
     }
 

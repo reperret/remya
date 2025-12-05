@@ -20,7 +20,7 @@ const API = (function() {
         return {
             ollamaUrl: settings.ollamaUrl || defaultOllamaUrl,
             backendUrl: settings.backendUrl || defaultBackendUrl,
-            model: settings.model || 'qwen2.5:7b'
+            model: settings.model || 'mistral:7b-instruct-v0.2-q5_K_M'
         };
     }
 
