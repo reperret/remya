@@ -114,6 +114,9 @@ const App = (function() {
         // Send button
         UI.elements.sendBtn?.addEventListener('click', sendMessage);
 
+        // Stop button
+        UI.elements.stopBtn?.addEventListener('click', stopGeneration);
+
         // Attach file
         UI.elements.attachBtn?.addEventListener('click', () => UI.elements.fileInput?.click());
         UI.elements.fileInput?.addEventListener('change', handleFileAttach);
@@ -341,6 +344,15 @@ Explique cette erreur à l'utilisateur de façon simple et propose des solutions
         // Mettre à jour la liste des conversations
         const conversations = Storage.getConversations();
         UI.renderConversationsList(conversations, currentConversationId);
+    }
+
+    function stopGeneration() {
+        if (isGenerating) {
+            API.cancelChat();
+            isGenerating = false;
+            UI.setSendingState(false);
+            UI.showNotification('Génération arrêtée', 'info');
+        }
     }
 
     async function regenerateLastResponse() {

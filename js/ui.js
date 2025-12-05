@@ -24,10 +24,13 @@ const UI = (function() {
         // Main
         welcome: null,
         messages: null,
+        chatContainer: null,
         messageInput: null,
         sendBtn: null,
+        stopBtn: null,
         attachBtn: null,
         fileInput: null,
+        scrollToBottomBtn: null,
 
         // Header
         commandPaletteBtn: null,
@@ -38,6 +41,12 @@ const UI = (function() {
         commandList: null,
         settingsModal: null
     };
+
+    // State pour le scroll
+    let userHasScrolled = false;
+    let isGenerating = false;
+    let lastRenderTime = 0;
+    const RENDER_THROTTLE = 50; // ms entre chaque rendu
 
     // ============================================
     // Initialisation
@@ -63,16 +72,52 @@ const UI = (function() {
 
         elements.welcome = document.getElementById('welcome');
         elements.messages = document.getElementById('messages');
+        elements.chatContainer = document.querySelector('.chat-container');
         elements.messageInput = document.getElementById('messageInput');
         elements.sendBtn = document.getElementById('sendBtn');
+        elements.stopBtn = document.getElementById('stopBtn');
         elements.attachBtn = document.getElementById('attachBtn');
         elements.fileInput = document.getElementById('fileInput');
+        elements.scrollToBottomBtn = document.getElementById('scrollToBottom');
 
         elements.commandPaletteBtn = document.getElementById('commandPaletteBtn');
         elements.commandPalette = document.getElementById('commandPalette');
         elements.commandSearch = document.getElementById('commandSearch');
         elements.commandList = document.getElementById('commandList');
         elements.settingsModal = document.getElementById('settingsModal');
+
+        // Bind scroll events
+        if (elements.chatContainer) {
+            elements.chatContainer.addEventListener('scroll', handleScroll);
+        }
+        if (elements.scrollToBottomBtn) {
+            elements.scrollToBottomBtn.addEventListener('click', () => {
+                scrollToBottom(true);
+                userHasScrolled = false;
+            });
+        }
+    }
+
+    function handleScroll() {
+        if (!elements.chatContainer) return;
+
+        const { scrollTop, scrollHeight, clientHeight } = elements.chatContainer;
+        const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+
+        // Si l'utilisateur scroll pendant la génération
+        if (isGenerating && distanceFromBottom > 100) {
+            userHasScrolled = true;
+        }
+
+        // Afficher/masquer le bouton scroll-to-bottom
+        if (elements.scrollToBottomBtn) {
+            if (distanceFromBottom > 200) {
+                elements.scrollToBottomBtn.classList.add('visible');
+            } else {
+                elements.scrollToBottomBtn.classList.remove('visible');
+                userHasScrolled = false;
+            }
+        }
     }
 
     function applyTheme() {
@@ -289,10 +334,21 @@ const UI = (function() {
         return contentEl;
     }
 
-    function updateMessageContent(contentEl, content) {
-        contentEl.innerHTML = parseMarkdown(content);
-        highlightCode(contentEl);
-        scrollToBottom();
+    function updateMessageContent(contentEl, content, forceRender = false) {
+        const now = Date.now();
+
+        // Throttle les rendus pour plus de fluidité
+        if (!forceRender && now - lastRenderTime < RENDER_THROTTLE) {
+            return;
+        }
+        lastRenderTime = now;
+
+        // Utiliser requestAnimationFrame pour un rendu plus fluide
+        requestAnimationFrame(() => {
+            contentEl.innerHTML = parseMarkdown(content);
+            highlightCode(contentEl);
+            scrollToBottom();
+        });
     }
 
     function createSystemMessage(content, type = 'info') {
@@ -304,11 +360,13 @@ const UI = (function() {
         return msg;
     }
 
-    function scrollToBottom() {
-        const container = document.querySelector('.chat-container');
-        if (container) {
-            container.scrollTop = container.scrollHeight;
-        }
+    function scrollToBottom(force = false) {
+        if (!elements.chatContainer) return;
+
+        // Ne pas scroller si l'utilisateur a scrollé manuellement (sauf si force=true)
+        if (userHasScrolled && !force) return;
+
+        elements.chatContainer.scrollTop = elements.chatContainer.scrollHeight;
     }
 
     function loadConversationMessages(messages) {
@@ -424,23 +482,19 @@ const UI = (function() {
     }
 
     function setSendingState(isSending) {
+        isGenerating = isSending;
+        userHasScrolled = false;
+
+        const inputContainer = document.querySelector('.input-container');
+
         if (elements.sendBtn) {
-            elements.sendBtn.disabled = isSending;
-            if (isSending) {
-                elements.sendBtn.innerHTML = `
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 6v6l4 2"></path>
-                    </svg>
-                `;
-            } else {
-                elements.sendBtn.innerHTML = `
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                    </svg>
-                `;
-            }
+            elements.sendBtn.style.display = isSending ? 'none' : 'flex';
+        }
+        if (elements.stopBtn) {
+            elements.stopBtn.style.display = isSending ? 'flex' : 'none';
+        }
+        if (inputContainer) {
+            inputContainer.classList.toggle('generating', isSending);
         }
         if (elements.messageInput) {
             elements.messageInput.disabled = isSending;

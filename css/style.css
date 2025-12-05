@@ -4,32 +4,32 @@
    ============================================ */
 
 :root {
-    /* Colors - Dark Theme (Default) */
-    --bg-primary: #0a0a0f;
-    --bg-secondary: #12121a;
-    --bg-tertiary: #1a1a24;
-    --bg-hover: #22222e;
-    --bg-active: #2a2a38;
+    /* Colors - Dark Theme (Default) - Monochrome + Red accent */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-tertiary: #1a1a1a;
+    --bg-hover: #222222;
+    --bg-active: #2a2a2a;
 
-    --text-primary: #f0f0f5;
-    --text-secondary: #a0a0b0;
-    --text-muted: #606070;
+    --text-primary: #e8e8e8;
+    --text-secondary: #888888;
+    --text-muted: #555555;
 
-    --accent: #00d4ff;
-    --accent-secondary: #7c3aed;
-    --accent-gradient: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
-    --accent-glow: 0 0 20px rgba(0, 212, 255, 0.3);
+    --accent: #dc2626;
+    --accent-secondary: #991b1b;
+    --accent-gradient: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    --accent-glow: 0 0 20px rgba(220, 38, 38, 0.25);
 
-    --success: #10b981;
-    --warning: #f59e0b;
+    --success: #22c55e;
+    --warning: #eab308;
     --error: #ef4444;
 
-    --border: #2a2a38;
-    --border-light: #3a3a48;
+    --border: #222222;
+    --border-light: #333333;
 
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.7);
 
     /* Sizing */
     --sidebar-width: 280px;
@@ -52,22 +52,22 @@
 
 /* Light Theme */
 [data-theme="light"] {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f5f5f7;
-    --bg-tertiary: #e8e8ed;
-    --bg-hover: #e0e0e8;
-    --bg-active: #d0d0d8;
+    --bg-primary: #fafafa;
+    --bg-secondary: #f0f0f0;
+    --bg-tertiary: #e5e5e5;
+    --bg-hover: #d9d9d9;
+    --bg-active: #cccccc;
 
-    --text-primary: #1a1a2e;
-    --text-secondary: #4a4a5e;
-    --text-muted: #8a8a9e;
+    --text-primary: #171717;
+    --text-secondary: #525252;
+    --text-muted: #a3a3a3;
 
-    --border: #d0d0d8;
-    --border-light: #e0e0e8;
+    --border: #d4d4d4;
+    --border-light: #e5e5e5;
 
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 /* ============================================
@@ -127,7 +127,7 @@ input, textarea, select {
 
 input:focus, textarea:focus, select:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
 }
 
 select {
@@ -380,6 +380,13 @@ kbd {
 
 .status-indicator.connected {
     background: var(--success);
+}
+
+.status-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
 }
 
 /* ============================================
@@ -844,7 +851,7 @@ kbd {
 
 .input-container:focus-within {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
 }
 
 .input-actions-left, .input-actions-right {
@@ -1346,4 +1353,99 @@ pre[class*="language-"] {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+}
+
+/* ============================================
+   Stop Button
+   ============================================ */
+
+.stop-btn {
+    padding: 10px 16px;
+    background: var(--error);
+    color: #fff;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.stop-btn:hover {
+    background: #dc2626;
+    transform: scale(1.02);
+}
+
+.stop-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ============================================
+   Scroll to Bottom Button
+   ============================================ */
+
+.scroll-to-bottom {
+    position: fixed;
+    bottom: 120px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity var(--transition-fast), visibility var(--transition-fast),
+                transform var(--transition-fast), background var(--transition-fast);
+    z-index: 50;
+}
+
+.scroll-to-bottom.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-to-bottom:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.scroll-to-bottom svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ============================================
+   Generating State
+   ============================================ */
+
+.generating .send-btn {
+    display: none;
+}
+
+.generating .stop-btn {
+    display: flex;
+}
+
+.input-container .stop-btn {
+    display: none;
+}
+
+/* Spin animation for loading */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spin {
+    animation: spin 1s linear infinite;
 }
